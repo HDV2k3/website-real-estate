@@ -1,0 +1,21 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Starting pre-build phase...
+      - echo Downloading Firebase config from S3...
+  build:
+    commands:
+      - echo Packaging JAR file...
+      - mvn clean package -DskipTests
+  post_build:
+    commands:
+      - echo Build complete.
+artifacts:
+  files:
+    - target/marketing.jar
+    - src/main/resources/application.yml  # Include application.yml if needed
+  discard-paths: yes
+env:
+  variables:
+    MONGODB_URI: ${MONGODB_URI}  # Optionally set the MongoDB URI as an environment variable

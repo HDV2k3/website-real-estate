@@ -1,0 +1,9 @@
+Flask
+Flask-Cors
+numpy
+nltk
+schedule
+importlib-metadata
+requests
+urllib3
+six

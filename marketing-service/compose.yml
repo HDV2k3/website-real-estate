@@ -1,0 +1,16 @@
+services:
+  your-app:
+    build:
+      context: .
+    image: devhuynh2003/marketing-service:latest
+    container_name: marketing-service
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb+srv://${MONGODB_USERNAME}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}/${MONGODB_DATABASE}?retryWrites=true&w=majority&appName=Cluster0
+    ports:
+      - "8083:8083"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

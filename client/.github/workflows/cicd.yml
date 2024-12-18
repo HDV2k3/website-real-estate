@@ -1,0 +1,53 @@
+name: CI/CD Pipeline for NextLife Website
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build docker image
+        run: |
+          docker build \
+            --build-arg NEXT_PUBLIC_API_URL_SOCKET=${{ secrets.NEXT_PUBLIC_API_URL_SOCKET }} \
+            --build-arg NEXT_PUBLIC_API_URL_CHATTING=${{ secrets.NEXT_PUBLIC_API_URL_CHATTING }} \
+            --build-arg NEXT_PUBLIC_API_URL_MARKETING=${{ secrets.NEXT_PUBLIC_API_URL_MARKETING }} \
+            --build-arg NEXT_PUBLIC_API_URL_USER=${{ secrets.NEXT_PUBLIC_API_URL_USER }} \
+            --build-arg NEXT_PUBLIC_API_URL_CHAT_BOT=${{ secrets.NEXT_PUBLIC_API_URL_CHAT_BOT }} \
+            --build-arg NEXT_PUBLIC_API_URL_PAYMENT=${{ secrets.NEXT_PUBLIC_API_URL_PAYMENT }} \
+            -t devhuynh2003/nextjs-service .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push image to Docker Hub
+        run: docker push devhuynh2003/nextjs-service:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Stop and remove old container
+        run: docker rm -f nextjs-service || true
+
+      - name: Remove old images
+        run: docker rmi -f devhuynh2003/nextjs-service:latest || true
+
+      - name: Pull image from Docker Hub
+        run: docker pull devhuynh2003/nextjs-service:latest
+
+      - name: Run docker container
+        run: |
+          docker run -d \
+            -p 3000:3000 \
+            --env-file /home/ubuntu/.env \
+            --name nextjs-service \
+            devhuynh2003/nextjs-service:latest
+
+            

@@ -1,0 +1,62 @@
+{
+  "id": "post001",
+  "roomId": "room001",
+  "title": "Modern Studio Apartment in Downtown",
+  "description": "This studio apartment offers a modern living space with a beautiful city view, located in the heart of downtown.",
+  "roomInfo": {
+    "name": "Modern Studio Apartment",
+    "description": "A stylish studio apartment with contemporary design and premium amenities.",
+    "address": "123 Main Street, New York, NY 10001",
+    "type": "Studio",
+    "style": "Modern",
+    "floor": "5",
+    "images": [
+      "https://example.com/images/room1.jpg",
+      "https://example.com/images/room2.jpg"
+    ],
+    "width": 4.5,
+    "height": 3.0,
+    "totalArea": 40.0,
+    "capacity": 2,
+    "numberOfBedrooms": 1,
+    "numberOfBathrooms": 1,
+    "availableFromDate": "2024-09-15"
+  },
+  "roomUtility": {
+    "furnitureAvailability": {
+      "Bed": true,
+      "Sofa": true,
+      "Table": true,
+      "Chair": true
+    },
+    "amenitiesAvailability": {
+      "WiFi": true,
+      "AirConditioner": true,
+      "Heater": false,
+      "WashingMachine": true
+    }
+  },
+  "pricingDetails": {
+    "basePrice": 1200.00,
+    "electricityCost": 50.00,
+    "waterCost": 30.00,
+    "additionalFees": [
+      {
+        "feeType": "Cleaning",
+        "amount": 100.00
+      },
+      {
+        "feeType": "SecurityDeposit",
+        "amount": 500.00
+      }
+    ]
+  },
+  "availableFromDate": "2024-09-15",
+  "contactInfo": "contact@roomfinder.com",
+  "additionalDetails": "Close to public transportation, shopping centers, and parks.",
+  "status": "active",
+  "createdDate": "2024-08-25T16:00:00Z",
+  "lastModifiedDate": "2024-08-25T16:00:00Z",
+  "createdBy": "System",
+  "modifiedBy": "System"
+}

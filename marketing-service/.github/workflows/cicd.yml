@@ -1,0 +1,44 @@
+name: Deploy Java Spring Boot Application
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4
+
+      - name: Build docker image
+        run: docker build -t devhuynh2003/marketing-service .
+
+      - name: Login to Docker Hub
+        run: echo "${{ secrets.DOCKER_ACCESS_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      - name: Push image to Docker Hub
+        run: docker push devhuynh2003/marketing-service:latest
+
+  deploy:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - name: Pull image from Docker Hub
+        run: docker pull devhuynh2003/marketing-service:latest
+
+      - name: Delete old container
+        run: docker rm -f marketing-service || true
+
+      - name: Run docker container
+        run: |
+            docker run -d \
+              -p 8083:8083 \
+              --env-file /home/ubuntu/.env \
+              --name marketing-service \
+              devhuynh2003/marketing-service:latest
+          
+
+
+
